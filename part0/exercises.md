@@ -57,10 +57,8 @@ sequenceDiagram
 	participant server
 	
 	Note right of browser: User clicks the submit button
-	activate browser
 	browser->>browser: The list is redrawn by redrawNotes() in spa.js
 	browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
-	deactivate browser
 	
 	activate server
 	server-->>browser: {"message":"note created"}
