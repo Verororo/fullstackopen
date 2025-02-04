@@ -3,7 +3,7 @@ import Note from './components/Note'
 const App = ({ notes }) => {
   return (
     <div>
-      <h1>Notes</h1>
+      <h1>Some Notes</h1>
 
       <ul>
         {notes.map(note =>

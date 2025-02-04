@@ -4,7 +4,7 @@ import App from './App'
 const notes = [
   {
     id: 1,
-    content: 'HTML is easy',
+    content: 'HTML is pretty easy',
     important: true
   },
   {
