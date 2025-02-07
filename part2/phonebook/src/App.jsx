@@ -33,11 +33,13 @@ const Form = (props) => (
 const List = ({ persons, filterName }) => (
   <div>
     <ul>
-      {persons
-       .filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
-       .map(person =>
-         <li key={person.name}>{person.name} {person.number}</li>
-       )}
+      {
+        persons
+          .filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
+          .map(person =>
+            <li key={person.name}>{person.name} {person.number}</li>
+          )
+      }
     </ul>
   </div>
 )
@@ -65,8 +67,13 @@ const App = () => {
 
     if (persons.map(person => person.name).includes(newName))
       alert(`${newName} is already in the phonebook`)
-    else
-      setPersons(persons.concat(personObject))
+    else {
+      axios
+        .post('http://localhost:3001/persons', personObject)
+        .then(response => {
+          setPersons(response.data)
+        })
+    }
 
     setNewName('')
     setNewNumber('')
