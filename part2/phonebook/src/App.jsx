@@ -2,6 +2,27 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personsService from './services/persons'
 
+const Message = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+    
+  const messageStyle = {
+    color: message.match(/has already been removed/g) ? 'red' : 'green',
+    background: 'lightgrey',
+    borderStyle: 'solid',
+    fontSize: 20,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+  return (
+    <div style={messageStyle}>
+      {message}
+    </div>
+  )
+}
+
 const Filter = ({ filterName, handleFilterChange }) => (
   <p>
     filter shown with <input
@@ -59,6 +80,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setNewFilter] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personsService
@@ -82,6 +104,17 @@ const App = () => {
 	  .update(personExisting.id, { ...personExisting, number: newNumber })
 	  .then(updatedPerson => {
 	    setPersons(persons.map(p => p.id === personExisting.id ? updatedPerson : p))
+
+	    setMessage(`Updated ${personExisting.name}`)
+	    setTimeout(() => {
+	      setMessage(null)
+	    }, 5000)
+	  })
+	  .catch(error => {
+	    setMessage(`Information of ${personExisting.name} has already been removed from the server`)
+	    setTimeout(() => {
+	      setMessage(null)
+	    }, 5000)
 	  })
       }
     }
@@ -90,6 +123,11 @@ const App = () => {
 	.create(personObject)
 	.then(newPerson => {
 	  setPersons(persons.concat(newPerson))
+
+	  setMessage(`Added ${newPerson.name}`)
+	  setTimeout(() => {
+	    setMessage(null)
+	  }, 5000)
 	})
     }
 
@@ -122,6 +160,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Message message={message} />
 
       <Filter
 	filterName={filterName}
