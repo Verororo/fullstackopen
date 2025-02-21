@@ -25,18 +25,18 @@ app.use(cors())
 
 let notes = [
   {
-    id: "1",
-    content: "HTML is easy",
+    id: '1',
+    content: 'HTML is easy',
     important: true
   },
   {
-    id: "2",
-    content: "Browser can execute only JavaScript",
+    id: '2',
+    content: 'Browser can execute only JavaScript',
     important: false
   },
   {
-    id: "3",
-    content: "GET and POST are the most important methods of HTTP protocol",
+    id: '3',
+    content: 'GET and POST are the most important methods of HTTP protocol',
     important: true
   }
 ]
@@ -88,14 +88,14 @@ app.put('/api/notes/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
   const body = request.body
   if (body.content === undefined) {
     return response.status(400).json({
       error: 'content missing'
     })
   }
-  
+
   const note = new Note({
     content: body.content,
     important: body.important || false,
@@ -103,7 +103,7 @@ app.post('/api/notes', (request, response) => {
 
   note.save()
     .then(savedNote => {
-    response.json(savedNote)
+      response.json(savedNote)
     })
     .catch(error => next(error))
 })
